@@ -1,0 +1,21 @@
+# Fuente: https://github.com/ChristianLempa/boilerplates/blob/main/docker-compose/prometheus/compose.yaml
+# https://hub.docker.com/r/prom/prometheus/tags
+# https://docs.docker.com/engine/daemon/prometheus/
+
+# volumenes para la persistencia de datos, los datos de prometheus duran 15 dias
+# los puertos expuerts no estan protegidos ni encriptados, merjo isolado, o protegerlos con web acceso control like teleporty o nginx proxi manager
+
+volumes:
+  prometheus-data:
+    driver: local
+services:
+  prometheus:
+    image: docker.io/prom/prometheus:v3.2.1
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    command: "--config.file=/etc/prometheus/prometheus.yaml"
+    volumes:
+      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - prometheus-data:/prometheus
+    restart: unless-stopped

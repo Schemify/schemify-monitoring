@@ -1,0 +1,16 @@
+# Fuente: https://github.com/ChristianLempa/boilerplates/blob/main/docker-compose/grafana/compose.yaml
+
+# Tiene auth nativbo, necesita ssl y ngix proxy
+
+volumes:
+  grafana-data:
+    driver: local
+services:
+  grafana:
+    image: docker.io/grafana/grafana-oss:11.6.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
