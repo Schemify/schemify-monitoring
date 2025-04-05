@@ -31,7 +31,7 @@ services:
     ports:
       - 9090:9090
     networks:
-      - nginxproxymanager_nginxproxymanager-app-1-network
+      - grafana_network
     command: "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -39,5 +39,5 @@ services:
     restart: unless-stopped
 
 networks:
-  nginxproxymanager_nginxproxymanager-app-1-network:
-    external: true
+  grafana_network: # Red para Grafana
+    driver: bridge

@@ -26,10 +26,13 @@ services:
       - "3000:3000"
     networks:
       - nginxproxymanager_nginxproxymanager-app-1-network
+      - prometheus_grafana_network
     volumes:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
 
 networks:
   nginxproxymanager_nginxproxymanager-app-1-network:
+    external: true
+  prometheus_grafana_network:
     external: true
