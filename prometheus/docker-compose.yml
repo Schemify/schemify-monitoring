@@ -5,6 +5,22 @@
 # volumenes para la persistencia de datos, los datos de prometheus duran 15 dias
 # los puertos expuerts no estan protegidos ni encriptados, merjo isolado, o protegerlos con web acceso control like teleporty o nginx proxi manager
 
+# volumes:
+#   prometheus-data:
+#     driver: local
+# services:
+#   prometheus:
+#     image: docker.io/prom/prometheus:v3.2.1
+#     container_name: prometheus
+#     ports:
+#       - 9090:9090
+#     command: "--config.file=/etc/prometheus/prometheus.yaml"
+#     volumes:
+#       - prometheus-data:/prometheus
+#       # - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+#       - ./config/:/etc/prometheus/
+#     restart: unless-stopped
+
 volumes:
   prometheus-data:
     driver: local
@@ -14,9 +30,14 @@ services:
     container_name: prometheus
     ports:
       - 9090:9090
-    command: "--config.file=/etc/prometheus/prometheus.yaml"
+    networks:
+      - nginxproxymanager_nginxproxymanager-app-1-network
+    command: "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
-      # - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
-      - ./config/:/etc/prometheus/
     restart: unless-stopped
+
+networks:
+  nginxproxymanager_nginxproxymanager-app-1-network:
+    external: true
